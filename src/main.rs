@@ -16,8 +16,8 @@ fn main() {
 
     match day {
         1 => days::day01::solve(),
+        2 => days::day02::solve(),
         // Add more days here as you complete them
-        // 2 => days::day02::solve(),
         // 3 => days::day03::solve(),
         _ => println!("Day {} not implemented yet!", day),
     }
