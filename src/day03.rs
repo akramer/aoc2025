@@ -7,14 +7,16 @@ pub fn parse_input(input: &str) -> Vec<String> {
 
 pub fn find_highest_two_digits(s: &str) -> u64 {
     let bytes = s.as_bytes();
+    let len = bytes.len();
     
-    // Find the value and index of the leftmost highest digit
-    // iter().enumerate().max_by(...) finds the last max element if we just compare values
-    // To find the *leftmost* (first) max, we need to be careful or just iterate.
-    // However, Iterator::max_by_key on (index, &val) would lexicographically compare.
-    // We want max value, then min index.
-    
-    let (max_idx, &max_byte) = bytes.iter()
+    // We need at least 2 digits to pick two.
+    if len < 2 {
+        panic!("Input string must have at least 2 digits");
+    }
+
+    // Find the leftmost highest digit, excluding the last digit
+    // range is 0..len-1
+    let (max_idx, &max_byte) = bytes[0..len - 1].iter()
         .enumerate()
         .fold(None, |acc: Option<(usize, &u8)>, (idx, val)| {
             match acc {
@@ -28,15 +30,13 @@ pub fn find_highest_two_digits(s: &str) -> u64 {
                 None => Some((idx, val)),
             }
         })
-        .expect("Input string must not be empty");
+        .expect("Input string must not be empty or have length 1");
 
     let first_digit = (max_byte - b'0') as u64;
 
-    // Look for the highest digit in the remaining part of the string
+    // Look for the highest digit in the remaining part of the string (after the chosen first digit)
     let suffix = &bytes[max_idx + 1..];
     
-    // If no digits remain, we can't pick a second digit.
-    // The prompt implies we pick two, so we expect this to succeed.
     let next_max_byte = suffix.iter().max().expect("Must have a digit after the highest digit");
     
     let second_digit = (next_max_byte - b'0') as u64;
@@ -57,15 +57,22 @@ mod tests {
 
     #[test]
     fn test_examples() {
-        assert_eq!(find_highest_two_digits("1937"), 97); // 9 is max, then 7 is max of "37"
-        assert_eq!(find_highest_two_digits("54321"), 54); // 5 is max, then 4 is max of "4321"
-        assert_eq!(find_highest_two_digits("12995"), 99); // First 9 is max, then second 9 is max of "95"
-        assert_eq!(find_highest_two_digits("32788"), 88); // First 8 is max, then second 8 is max of "8"
+        assert_eq!(find_highest_two_digits("1937"), 97); // 9 is max of "193", then 7 is max of "37"
+        assert_eq!(find_highest_two_digits("54321"), 54); // 5 is max of "5432", then 4 is max of "4321"
+        assert_eq!(find_highest_two_digits("12995"), 99); // First 9 is max of "1299", then second 9 is max of "95"
+        assert_eq!(find_highest_two_digits("32788"), 88); // First 8 is max of "3278", then second 8 is max of "8"
+    }
+    
+    #[test]
+    fn test_max_at_end() {
+        assert_eq!(find_highest_two_digits("123"), 23); // Max of "12" is 2. Suffix "3". Max 3.
+        assert_eq!(find_highest_two_digits("19"), 19);  // Max of "1" is 1. Suffix "9". Max 9.
+        assert_eq!(find_highest_two_digits("159"), 59); // Max of "15" is 5. Suffix "9". Max 9.
     }
 
     #[test]
     #[should_panic]
     fn test_panic_on_short() {
-        find_highest_two_digits("9"); // Should panic, no digit after 9
+        find_highest_two_digits("9"); // Should panic, < 2 digits
     }
 }
