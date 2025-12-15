@@ -37,7 +37,7 @@ pub fn part1(grid: &[Vec<char>]) -> usize {
                     }
                 }
 
-                if neighbor_at_count <= 4 {
+                if neighbor_at_count < 4 {
                     safe_at_count += 1;
                 }
             }
@@ -59,8 +59,7 @@ mod tests {
 .@@.
 ....";
         let grid = parse_input(input);
-        // Each @ has 3 neighbors that are @.
-        // All 4 @s have <= 4 neighbors.
+        // Each @ has 3 neighbors. 3 < 4. Counted.
         assert_eq!(part1(&grid), 4);
     }
 
@@ -71,14 +70,9 @@ mod tests {
 @@@
 @@@";
         let grid = parse_input(input);
-        // Center @ at (1,1) has 8 neighbors. 8 > 4, so not counted.
-        // Corner @s (e.g. 0,0) have 3 neighbors. 3 <= 4, counted.
-        // Edge @s (e.g. 0,1) have 5 neighbors. 5 > 4, not counted.
-        
-        // Corners: (0,0), (0,2), (2,0), (2,2) -> 4 corners. Counted.
-        // Edges: (0,1), (1,0), (1,2), (2,1) -> 4 edges. Not counted.
-        // Center: (1,1) -> 1 center. Not counted.
-        // Total should be 4.
+        // Corners: 3 neighbors < 4. Counted (4 corners).
+        // Edges: 5 neighbors >= 4. Not counted.
+        // Center: 8 neighbors >= 4. Not counted.
         assert_eq!(part1(&grid), 4);
     }
 
@@ -97,7 +91,23 @@ mod tests {
 ...@
 ....";
         let grid = parse_input(input);
-        // Both @ have 0 neighbors. 0 <= 4.
         assert_eq!(part1(&grid), 2);
+    }
+
+    #[test]
+    fn test_exactly_four() {
+        let input = "\
+.@.
+@.@
+.@.";
+        let grid = parse_input(input);
+        // Center (1,1) has neighbors (0,1), (1,0), (1,2), (2,1). That is 4 neighbors.
+        // 4 is NOT < 4. So center is NOT counted.
+        
+        // Outer ones:
+        // (0,1) has neighbors (1,0), (1,1), (1,2). 3 neighbors. 3 < 4. Counted.
+        // Same for others.
+        // Total should be 4.
+        assert_eq!(part1(&grid), 4);
     }
 }
