@@ -1,20 +1,20 @@
 use aoc_runner_derive::{aoc, aoc_generator};
 
 #[aoc_generator(day2)]
-pub fn parse_input(input: &str) -> Vec<(u128, u128)> {
+pub fn parse_input(input: &str) -> Vec<(u64, u64)> {
     input
         .trim()
         .split(',')
         .map(|range| {
             let parts: Vec<&str> = range.split('-').collect();
-            let low: u128 = parts[0].parse().expect("Invalid low value");
-            let high: u128 = parts[1].parse().expect("Invalid high value");
+            let low: u64 = parts[0].parse().expect("Invalid low value");
+            let high: u64 = parts[1].parse().expect("Invalid high value");
             (low, high)
         })
         .collect()
 }
 
-fn has_mirrored_halves(n: u128) -> bool {
+fn has_mirrored_halves(n: u64) -> bool {
     let s = n.to_string();
     let len = s.len();
 
@@ -29,7 +29,7 @@ fn has_mirrored_halves(n: u128) -> bool {
     first_half == second_half
 }
 
-fn contains_equal_divisions(n: u128) -> bool {
+fn contains_equal_divisions(n: u64) -> bool {
     let s = n.to_string();
     let len = s.len();
 
@@ -54,7 +54,7 @@ fn contains_equal_divisions(n: u128) -> bool {
 }
 
 #[aoc(day2, part1)]
-pub fn part1(ranges: &[(u128, u128)]) -> u128 {
+pub fn part1(ranges: &[(u64, u64)]) -> u64 {
     ranges
         .iter()
         .flat_map(|&(low, high)| low..=high)
@@ -63,7 +63,7 @@ pub fn part1(ranges: &[(u128, u128)]) -> u128 {
 }
 
 #[aoc(day2, part2)]
-pub fn part2(ranges: &[(u128, u128)]) -> u128 {
+pub fn part2(ranges: &[(u64, u64)]) -> u64 {
     ranges
         .iter()
         .flat_map(|&(low, high)| low..=high)
@@ -77,74 +77,74 @@ mod tests {
 
     #[test]
     fn test_has_mirrored_halves_true() {
-        assert!(has_mirrored_halves(1212));
-        assert!(has_mirrored_halves(5555));
-        assert!(has_mirrored_halves(123123));
-        assert!(has_mirrored_halves(11));
+        assert!(has_mirrored_halves(1212u64));
+        assert!(has_mirrored_halves(5555u64));
+        assert!(has_mirrored_halves(123123u64));
+        assert!(has_mirrored_halves(11u64));
     }
 
     #[test]
     fn test_has_mirrored_halves_false() {
-        assert!(!has_mirrored_halves(1234));
-        assert!(!has_mirrored_halves(1213));
-        assert!(!has_mirrored_halves(123456));
+        assert!(!has_mirrored_halves(1234u64));
+        assert!(!has_mirrored_halves(1213u64));
+        assert!(!has_mirrored_halves(123456u64));
     }
 
     #[test]
     fn test_has_mirrored_halves_odd_length() {
-        assert!(!has_mirrored_halves(123));
-        assert!(!has_mirrored_halves(12345));
-        assert!(!has_mirrored_halves(1));
+        assert!(!has_mirrored_halves(123u64));
+        assert!(!has_mirrored_halves(12345u64));
+        assert!(!has_mirrored_halves(1u64));
     }
 
     #[test]
     fn test_part1_small_range() {
         let ranges = parse_input("10-20");
-        assert_eq!(part1(&ranges), 11);
+        assert_eq!(part1(&ranges), 11u64);
     }
 
     #[test]
     fn test_part1_larger_range() {
         let ranges = parse_input("1000-1300");
-        assert_eq!(part1(&ranges), 3333);
+        assert_eq!(part1(&ranges), 3333u64);
     }
 
     #[test]
     fn test_part1_multiple_ranges() {
         let ranges = parse_input("10-20,1000-1300");
-        assert_eq!(part1(&ranges), 3344);
+        assert_eq!(part1(&ranges), 3344u64);
     }
 
     #[test]
     fn test_contains_equal_divisions() {
-        assert!(contains_equal_divisions(123123));
-        assert!(contains_equal_divisions(121212));
-        assert!(contains_equal_divisions(111111));
-        assert!(!contains_equal_divisions(1234));
-        assert!(contains_equal_divisions(1212));
+        assert!(contains_equal_divisions(123123u64));
+        assert!(contains_equal_divisions(121212u64));
+        assert!(contains_equal_divisions(111111u64));
+        assert!(!contains_equal_divisions(1234u64));
+        assert!(contains_equal_divisions(1212u64));
     }
 
     #[test]
     fn test_contains_equal_divisions_short() {
-        assert!(!contains_equal_divisions(1));
-        assert!(contains_equal_divisions(11));
-        assert!(!contains_equal_divisions(12));
-        assert!(!contains_equal_divisions(123));
-        assert!(contains_equal_divisions(111));
+        assert!(!contains_equal_divisions(1u64));
+        assert!(contains_equal_divisions(11u64));
+        assert!(!contains_equal_divisions(12u64));
+        assert!(!contains_equal_divisions(123u64));
+        assert!(contains_equal_divisions(111u64));
     }
 
     #[test]
     fn test_contains_equal_divisions_odd_length() {
-        assert!(contains_equal_divisions(123123123));
-        assert!(contains_equal_divisions(111111111));
-        assert!(!contains_equal_divisions(123456789));
-        assert!(!contains_equal_divisions(12345));
-        assert!(contains_equal_divisions(11111));
+        assert!(contains_equal_divisions(123123123u64));
+        assert!(contains_equal_divisions(111111111u64));
+        assert!(!contains_equal_divisions(123456789u64));
+        assert!(!contains_equal_divisions(12345u64));
+        assert!(contains_equal_divisions(11111u64));
     }
 
     #[test]
     fn test_part2() {
         let ranges = parse_input("1210-1215");
-        assert_eq!(part2(&ranges), 1212);
+        assert_eq!(part2(&ranges), 1212u64);
     }
 }
