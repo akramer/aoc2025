@@ -77,74 +77,74 @@ mod tests {
 
     #[test]
     fn test_has_mirrored_halves_true() {
-        assert!(has_mirrored_halves(1212u64));
-        assert!(has_mirrored_halves(5555u64));
-        assert!(has_mirrored_halves(123123u64));
-        assert!(has_mirrored_halves(11u64));
+        assert!(has_mirrored_halves(1212));
+        assert!(has_mirrored_halves(5555));
+        assert!(has_mirrored_halves(123123));
+        assert!(has_mirrored_halves(11));
     }
 
     #[test]
     fn test_has_mirrored_halves_false() {
-        assert!(!has_mirrored_halves(1234u64));
-        assert!(!has_mirrored_halves(1213u64));
-        assert!(!has_mirrored_halves(123456u64));
+        assert!(!has_mirrored_halves(1234));
+        assert!(!has_mirrored_halves(1213));
+        assert!(!has_mirrored_halves(123456));
     }
 
     #[test]
     fn test_has_mirrored_halves_odd_length() {
-        assert!(!has_mirrored_halves(123u64));
-        assert!(!has_mirrored_halves(12345u64));
-        assert!(!has_mirrored_halves(1u64));
+        assert!(!has_mirrored_halves(123));
+        assert!(!has_mirrored_halves(12345));
+        assert!(!has_mirrored_halves(1));
     }
 
     #[test]
     fn test_part1_small_range() {
         let ranges = parse_input("10-20");
-        assert_eq!(part1(&ranges), 11u64);
+        assert_eq!(part1(&ranges), 11);
     }
 
     #[test]
     fn test_part1_larger_range() {
         let ranges = parse_input("1000-1300");
-        assert_eq!(part1(&ranges), 3333u64);
+        assert_eq!(part1(&ranges), 3333);
     }
 
     #[test]
     fn test_part1_multiple_ranges() {
         let ranges = parse_input("10-20,1000-1300");
-        assert_eq!(part1(&ranges), 3344u64);
+        assert_eq!(part1(&ranges), 3344);
     }
 
     #[test]
     fn test_contains_equal_divisions() {
-        assert!(contains_equal_divisions(123123u64));
-        assert!(contains_equal_divisions(121212u64));
-        assert!(contains_equal_divisions(111111u64));
-        assert!(!contains_equal_divisions(1234u64));
-        assert!(contains_equal_divisions(1212u64));
+        assert!(contains_equal_divisions(123123));
+        assert!(contains_equal_divisions(121212));
+        assert!(contains_equal_divisions(111111));
+        assert!(!contains_equal_divisions(1234));
+        assert!(contains_equal_divisions(1212));
     }
 
     #[test]
     fn test_contains_equal_divisions_short() {
-        assert!(!contains_equal_divisions(1u64));
-        assert!(contains_equal_divisions(11u64));
-        assert!(!contains_equal_divisions(12u64));
-        assert!(!contains_equal_divisions(123u64));
-        assert!(contains_equal_divisions(111u64));
+        assert!(!contains_equal_divisions(1));
+        assert!(contains_equal_divisions(11));
+        assert!(!contains_equal_divisions(12));
+        assert!(!contains_equal_divisions(123));
+        assert!(contains_equal_divisions(111));
     }
 
     #[test]
     fn test_contains_equal_divisions_odd_length() {
-        assert!(contains_equal_divisions(123123123u64));
-        assert!(contains_equal_divisions(111111111u64));
-        assert!(!contains_equal_divisions(123456789u64));
-        assert!(!contains_equal_divisions(12345u64));
-        assert!(contains_equal_divisions(11111u64));
+        assert!(contains_equal_divisions(123123123));
+        assert!(contains_equal_divisions(111111111));
+        assert!(!contains_equal_divisions(123456789));
+        assert!(!contains_equal_divisions(12345));
+        assert!(contains_equal_divisions(11111));
     }
 
     #[test]
     fn test_part2() {
         let ranges = parse_input("1210-1215");
-        assert_eq!(part2(&ranges), 1212u64);
+        assert_eq!(part2(&ranges), 1212);
     }
 }
